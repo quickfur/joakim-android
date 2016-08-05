@@ -24,6 +24,7 @@ import android.input, android.looper : ALooper_pollAll;
 
 import core.stdc.stdint, core.stdc.math: sin;
 import core.stdc.stdarg : va_list, va_start;
+import core.stdc.string : memset;
 
 enum LOG_TAG = "libplasma";
 int LOGI(const(char)* fmt, ...) { 
@@ -389,7 +390,7 @@ void engine_term_display(engine* engine) {
     engine.animating = 0;
 }
 
-extern(C) int32_t engine_handle_input(android_app* app, AInputEvent* event) {
+int32_t engine_handle_input(android_app* app, AInputEvent* event) {
     engine* engine = cast(engine*)app.userData;
     if (AInputEvent_getType(event) == AINPUT_EVENT_TYPE_MOTION) {
         engine.animating = 1;
@@ -404,7 +405,7 @@ extern(C) int32_t engine_handle_input(android_app* app, AInputEvent* event) {
     return 0;
 }
 
-extern(C) void engine_handle_cmd(android_app* app, int32_t cmd) {
+void engine_handle_cmd(android_app* app, int32_t cmd) {
     engine* engine = cast(engine*)app.userData;
     switch (cmd) {
         case APP_CMD_INIT_WINDOW:

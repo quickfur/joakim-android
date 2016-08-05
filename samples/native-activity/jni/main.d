@@ -164,7 +164,7 @@ void engine_term_display(engine* engine) {
 /**
  * Process the next input event.
  */
-extern(C) int engine_handle_input(android_app* app, AInputEvent* event) {
+int engine_handle_input(android_app* app, AInputEvent* event) {
     engine* engine = cast(engine*)app.userData;
     if (AInputEvent_getType(event) == AINPUT_EVENT_TYPE_MOTION) {
         engine.animating = 1;
@@ -178,7 +178,7 @@ extern(C) int engine_handle_input(android_app* app, AInputEvent* event) {
 /**
  * Process the next main command.
  */
-extern(C) void engine_handle_cmd(android_app* app, int cmd) {
+void engine_handle_cmd(android_app* app, int cmd) {
     engine* engine = cast(engine*)app.userData;
     switch (cmd) {
         case APP_CMD_SAVE_STATE:
