@@ -578,7 +578,7 @@ android_app* android_app_create(ANativeActivity* activity,
         memcpy(android_app.savedState, savedState, savedStateSize);
     }
 
-    int msgpipe[2];
+    int[2] msgpipe;
     if (pipe(msgpipe)) {
         LOGE("could not create pipe: %s", strerror(errno));
         return null;
