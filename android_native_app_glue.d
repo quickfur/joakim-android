@@ -565,17 +565,17 @@ extern(C) void* android_app_entry(void* param) {
 
 android_app* android_app_create(ANativeActivity* activity,
         void* savedState, size_t savedStateSize) {
-    android_app* android_app = cast(android_app*)malloc(android_app.sizeof);
-    memset(android_app, 0, android_app.sizeof);
-    android_app.activity = activity;
+    android_app* andro_app = cast(android_app*)malloc(android_app.sizeof);
+    memset(andro_app, 0, android_app.sizeof);
+    andro_app.activity = activity;
 
-    pthread_mutex_init(&android_app.mutex, null);
-    pthread_cond_init(&android_app.cond, null);
+    pthread_mutex_init(&andro_app.mutex, null);
+    pthread_cond_init(&andro_app.cond, null);
 
     if (savedState != null) {
-        android_app.savedState = malloc(savedStateSize);
-        android_app.savedStateSize = savedStateSize;
-        memcpy(android_app.savedState, savedState, savedStateSize);
+        andro_app.savedState = malloc(savedStateSize);
+        andro_app.savedStateSize = savedStateSize;
+        memcpy(andro_app.savedState, savedState, savedStateSize);
     }
 
     int[2] msgpipe;
@@ -583,22 +583,22 @@ android_app* android_app_create(ANativeActivity* activity,
         LOGE("could not create pipe: %s", strerror(errno));
         return null;
     }
-    android_app.msgread = msgpipe[0];
-    android_app.msgwrite = msgpipe[1];
+    andro_app.msgread = msgpipe[0];
+    andro_app.msgwrite = msgpipe[1];
 
     pthread_attr_t attr;
     pthread_attr_init(&attr);
     pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_DETACHED);
-    pthread_create(&android_app.thread, &attr, &android_app_entry, android_app);
+    pthread_create(&andro_app.thread, &attr, &android_app_entry, andro_app);
 
     // Wait for thread to start.
-    pthread_mutex_lock(&android_app.mutex);
-    while (!android_app.running) {
-        pthread_cond_wait(&android_app.cond, &android_app.mutex);
+    pthread_mutex_lock(&andro_app.mutex);
+    while (!andro_app.running) {
+        pthread_cond_wait(&andro_app.cond, &andro_app.mutex);
     }
-    pthread_mutex_unlock(&android_app.mutex);
+    pthread_mutex_unlock(&andro_app.mutex);
 
-    return android_app;
+    return andro_app;
 }
 
 void android_app_write_cmd(android_app* android_app, byte cmd) {
