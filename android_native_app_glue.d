@@ -348,8 +348,8 @@ void print_cur_config(android_app* android_app) {
     AConfiguration_getCountry(android_app.config, country.ptr);
 
     LOGV("Config: mcc=%d mnc=%d lang=%c%c cnt=%c%c orien=%d touch=%d dens=%d "
-            "keys=%d nav=%d keysHid=%d navHid=%d sdk=%d size=%d long=%d "
-            "modetype=%d modenight=%d",
+          ~ "keys=%d nav=%d keysHid=%d navHid=%d sdk=%d size=%d long=%d "
+          ~ "modetype=%d modenight=%d",
             AConfiguration_getMcc(android_app.config),
             AConfiguration_getMnc(android_app.config),
             lang[0], lang[1], country[0], country[1],
