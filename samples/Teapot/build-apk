@@ -1,0 +1,17 @@
+$LDC/bin/ldc2 -I../../ -c ../../ndk_helper/GLContext.d
+$LDC/bin/ldc2 -I../../ -c ../../ndk_helper/JNIHelper.d
+$LDC/bin/ldc2 -I../../ -c ../../ndk_helper/gestureDetector.d
+$LDC/bin/ldc2 -I../../ -c ../../ndk_helper/perfMonitor.d
+$LDC/bin/ldc2 -I../../ -c ../../ndk_helper/shader.d
+$LDC/bin/ldc2 -I../../ -c ../../ndk_helper/tapCamera.d
+
+$LDC/bin/ldc2 -I../../ -Ijni/ -Jjni/ -c jni/TeapotNativeActivity.d
+$LDC/bin/ldc2 -I../../ -Jjni/ -c jni/TeapotRenderer.d
+$LDC/bin/ldc2 -I../../ -c ../../android/sensor.d
+
+$LDC/bin/ldc2 -I../../ -c ../../android_native_app_glue.d
+
+# native link command
+#/data/data/com.termux/files/usr/bin/clang -Wl,-soname,libTeapotNativeActivity.so -shared TeapotNativeActivity.o sensor.o TeapotRenderer.o android_native_app_glue.o GLContext.o JNIHelper.o gestureDetector.o perfMonitor.o shader.o tapCamera.o $LDC/lib/libphobos2-ldc.a $LDC/lib/libdruntime-ldc.a -lgcc -no-canonical-prefixes -target armv7-none-linux-androideabi -Wl,--fix-cortex-a8 -Wl,--no-undefined -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now -llog -landroid -lEGL -lGLESv2 -lc -lm -o libTeapotNativeActivity.so
+
+$NDK/toolchains/llvm/prebuilt/linux-x86_64/bin/clang -Wl,-soname,libTeapotNativeActivity.so -shared --sysroot=$NDK/platforms/android-21/arch-arm TeapotNativeActivity.o sensor.o TeapotRenderer.o android_native_app_glue.o GLContext.o JNIHelper.o gestureDetector.o perfMonitor.o shader.o tapCamera.o $LDC/lib/libphobos2-ldc.a $LDC/lib/libdruntime-ldc.a -lgcc -gcc-toolchain $NDK/toolchains/arm-linux-androideabi-4.9/prebuilt/linux-x86_64 -no-canonical-prefixes -fuse-ld=bfd -target armv7-none-linux-androideabi -Wl,--fix-cortex-a8 -Wl,--no-undefined -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now -Wl,--warn-shared-textrel -Wl,--fatal-warnings -llog -landroid -lEGL -lGLESv2 -lc -lm -o libTeapotNativeActivity.so
