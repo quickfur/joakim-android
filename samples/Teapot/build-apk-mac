@@ -11,7 +11,4 @@ ldc2 -mtriple=armv7-none-linux-android -I../../ -c ../../android/sensor.d
 
 ldc2 -mtriple=armv7-none-linux-android -I../../ -c ../../android_native_app_glue.d
 
-# native link command
-#clang -Wl,-soname,libTeapotNativeActivity.so -shared TeapotNativeActivity.o sensor.o TeapotRenderer.o android_native_app_glue.o GLContext.o JNIHelper.o gestureDetector.o perfMonitor.o shader.o tapCamera.o $PREFIX/lib/libphobos2-ldc.a $PREFIX/lib/libdruntime-ldc.a -target armv7-none-linux-androideabi -llog -landroid -lEGL -lGLESv2 -o libTeapotNativeActivity.so
-
 $CC -Wl,-soname,libTeapotNativeActivity.so -shared --sysroot=$NDK/platforms/android-21/arch-arm TeapotNativeActivity.o sensor.o TeapotRenderer.o android_native_app_glue.o GLContext.o JNIHelper.o gestureDetector.o perfMonitor.o shader.o tapCamera.o $RTDIR/lib/libphobos2-ldc.a $RTDIR/lib/libdruntime-ldc.a -gcc-toolchain $NDK/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64 -fuse-ld=bfd -target armv7-none-linux-androideabi -llog -landroid -lEGL -lGLESv2 -o libTeapotNativeActivity.so
