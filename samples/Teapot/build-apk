@@ -1,17 +1,19 @@
-ldc2 -mtriple=armv7-none-linux-android -I../../ -c ../../ndk_helper/GLContext.d
-ldc2 -mtriple=armv7-none-linux-android -I../../ -c ../../ndk_helper/JNIHelper.d
-ldc2 -mtriple=armv7-none-linux-android -I../../ -c ../../ndk_helper/gestureDetector.d
-ldc2 -mtriple=armv7-none-linux-android -I../../ -c ../../ndk_helper/perfMonitor.d
-ldc2 -mtriple=armv7-none-linux-android -I../../ -c ../../ndk_helper/shader.d
-ldc2 -mtriple=armv7-none-linux-android -I../../ -c ../../ndk_helper/tapCamera.d
+ldmd2 -I../../ -c ../../ndk_helper/GLContext.d
+ldmd2 -I../../ -c ../../ndk_helper/JNIHelper.d
+ldmd2 -I../../ -c ../../ndk_helper/gestureDetector.d
+ldmd2 -I../../ -c ../../ndk_helper/perfMonitor.d
+ldmd2 -I../../ -c ../../ndk_helper/shader.d
+ldmd2 -I../../ -c ../../ndk_helper/tapCamera.d
 
-ldc2 -mtriple=armv7-none-linux-android -I../../ -Ijni/ -Jjni/ -c jni/TeapotNativeActivity.d
-ldc2 -mtriple=armv7-none-linux-android -I../../ -Jjni/ -c jni/TeapotRenderer.d
-ldc2 -mtriple=armv7-none-linux-android -I../../ -c ../../android/sensor.d
+ldmd2 -I../../ -Ijni/ -Jjni/ -c jni/TeapotNativeActivity.d
+ldmd2 -I../../ -Jjni/ -c jni/TeapotRenderer.d
+ldmd2 -I../../ -c ../../android/sensor.d
 
-ldc2 -mtriple=armv7-none-linux-android -I../../ -c ../../android_native_app_glue.d
+ldmd2 -I../../ -c ../../android_native_app_glue.d
 
 # native Android link command
-#clang -Wl,-soname,libTeapotNativeActivity.so -shared TeapotNativeActivity.o sensor.o TeapotRenderer.o android_native_app_glue.o GLContext.o JNIHelper.o gestureDetector.o perfMonitor.o shader.o tapCamera.o $PREFIX/lib/libphobos2-ldc.a $PREFIX/lib/libdruntime-ldc.a -target armv7-none-linux-androideabi -llog -landroid -lEGL -lGLESv2 -o libTeapotNativeActivity.so
+#clang -Wl,-soname,libTeapotNativeActivity.so -shared TeapotNativeActivity.o sensor.o TeapotRenderer.o android_native_app_glue.o GLContext.o JNIHelper.o gestureDetector.o perfMonitor.o shader.o tapCamera.o $PREFIX/lib/libphobos2-ldc.a $PREFIX/lib/libdruntime-ldc.a -llog -landroid -lEGL -lGLESv2 -o libTeapotNativeActivity.so
 
-$CC -Wl,-soname,libTeapotNativeActivity.so -shared --sysroot=$NDK/platforms/android-21/arch-arm TeapotNativeActivity.o sensor.o TeapotRenderer.o android_native_app_glue.o GLContext.o JNIHelper.o gestureDetector.o perfMonitor.o shader.o tapCamera.o $RTDIR/lib/libphobos2-ldc.a $RTDIR/lib/libdruntime-ldc.a -gcc-toolchain $NDK/toolchains/arm-linux-androideabi-4.9/prebuilt/linux-x86_64 -fuse-ld=bfd -target armv7-none-linux-androideabi -llog -landroid -lEGL -lGLESv2 -o libTeapotNativeActivity.so
+mkdir -p libs/$APK_DIR/
+
+$CC -Wl,-soname,libTeapotNativeActivity.so -shared --sysroot=$NDK/platforms/android-21/$NDK_ARCH TeapotNativeActivity.o sensor.o TeapotRenderer.o android_native_app_glue.o GLContext.o JNIHelper.o gestureDetector.o perfMonitor.o shader.o tapCamera.o $RTDIR/lib/libphobos2-ldc.a $RTDIR/lib/libdruntime-ldc.a -gcc-toolchain $NDK/toolchains/$NDK_LINKER/prebuilt/$HOST -fuse-ld=bfd -target $TRIPLE -llog -landroid -lEGL -lGLESv2 -o libs/$APK_DIR/libTeapotNativeActivity.so
